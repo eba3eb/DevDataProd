@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Interactive Titanic Predictive Model</title>
+  <meta charset="utf-8">
+  <meta name="description" content="Interactive Titanic Predictive Model">
+  <meta name="author" content="Evan Althouse">
+  <meta name="generator" content="slidify" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/default.css" media="all" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/phone.css" 
+    media="only screen and (max-device-width: 480px)" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/slidify.css" >
+  <link rel="stylesheet" href="libraries/highlighters/highlight.js/css/tomorrow.css" />
+  <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->  <link rel=stylesheet href="./assets/css/ribbons.css"></link>
+
+  
+  <!-- Grab CDN jQuery, fall back to local if offline -->
+  <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.min.js"></script>
+  <script>window.jQuery || document.write('<script src="libraries/widgets/quiz/js/jquery.js"><\/script>')</script> 
+  <script data-main="libraries/frameworks/io2012/js/slides" 
+    src="libraries/frameworks/io2012/js/require-1.0.8.min.js">
+  </script>
+  
+  
+
+</head>
+<body style="opacity: 0">
+  <slides class="layout-widescreen">
+    
+    <!-- LOGO SLIDE -->
+        <slide class="title-slide segue nobackground">
+  <hgroup class="auto-fadein">
+    <h1>Interactive Titanic Predictive Model</h1>
+    <h2>Course Project for Coursera's Developing Data Products</h2>
+    <p>Evan Althouse<br/></p>
+  </hgroup>
+  <article></article>  
+</slide>
+    
+
+    <!-- SLIDES -->
+    <slide class="" id="slide-1" style="background:;">
+  <hgroup>
+    <h2>Intro</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li><p>We look to a Kaggle competition in order to build out a simple interactive predictive model. </p></li>
+<li><p>Our data uses passenger information such as socio-economic class and age, and labels each passenger with whether or not they survived the trip. We then predict the passenger&#39;s survival based on the interactive input.</p></li>
+<li><p>We have created an interactive app where input is received from the user. It is then passed to the predictive model, which will tell you whether or not a passenger with those traits would have survived the Titanic.</p></li>
+<li><p>This interactive app is easy to use, and easy to edit for different predictive models or inputs.</p></li>
+<li><p>All data-related information can be found at <a href="https://www.kaggle.com/c/titanic">link</a>.</p></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-2" style="background:;">
+  <hgroup>
+    <h2>Model</h2>
+  </hgroup>
+  <article data-timings="">
+    <p>We use a random forest model fitted to the training data. We first load the data, then manipulate the column data types. </p>
+
+<pre><code class="r">training.data &lt;- read.csv(&quot;C:/Users/evan.althouse/Documents/Kaggle/Titanic/train.csv&quot;)
+
+training.data$Survived &lt;- as.factor(training.data$Survived)
+training.data$Pclass &lt;- as.factor(training.data$Pclass)
+training.data$Sex &lt;- as.factor(training.data$Sex)
+training.data$SibSp &lt;- as.numeric(training.data$SibSp)
+training.data$Parch &lt;- as.numeric(training.data$Parch)
+</code></pre>
+
+<p>We then train the model</p>
+
+<pre><code class="r">model &lt;- train(Survived ~ Pclass + Sex + SibSp + Parch, type=&quot;randomForest&quot;, data=training.data)
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-3" style="background:;">
+  <hgroup>
+    <h2>Model Performance</h2>
+  </hgroup>
+  <article data-timings="">
+    <pre><code>## Random Forest 
+## 
+## 891 samples
+##  11 predictor
+##   2 classes: &#39;0&#39;, &#39;1&#39; 
+## 
+## No pre-processing
+## Resampling: Bootstrapped (25 reps) 
+## Summary of sample sizes: 891, 891, 891, 891, 891, 891, ... 
+## Resampling results across tuning parameters:
+## 
+##   mtry  Accuracy   Kappa      Accuracy SD  Kappa SD  
+##   2     0.7959382  0.5548337  0.02029851   0.03956512
+##   3     0.7891625  0.5430500  0.02200479   0.04429940
+##   5     0.7815042  0.5271297  0.02107591   0.04244847
+## 
+## Accuracy was used to select the optimal model using  the largest value.
+## The final value used for the model was mtry = 2.
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+<slide class="" id="slide-4" style="background:;">
+  <hgroup>
+    <h2>Conclusion</h2>
+  </hgroup>
+  <article data-timings="">
+    <ul>
+<li><p>Based on the results of the previous slide, we can expect accuracy of our model of around 80% (anyone who submits this model to Kaggle will find that this number is slightly inflated...). </p></li>
+<li><p>With a few simple tweaks, we can use a different predictive model with the same sample input. This shiny app is easily manipulated to include different models, different training data, or other features such as interactive graphs. </p></li>
+<li><p>This app has the ability to be used in a variety of different ways, with simple input from the user. It is easy to use and easy to edit.</p></li>
+</ul>
+
+  </article>
+  <!-- Presenter Notes -->
+</slide>
+
+    <slide class="backdrop"></slide>
+  </slides>
+  <div class="pagination pagination-small" id='io2012-ptoc' style="display:none;">
+    <ul>
+      <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=1 title='Intro'>
+         1
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=2 title='Model'>
+         2
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=3 title='Model Performance'>
+         3
+      </a>
+    </li>
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=4 title='Conclusion'>
+         4
+      </a>
+    </li>
+  </ul>
+  </div>  <!--[if IE]>
+    <script 
+      src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js">  
+    </script>
+    <script>CFInstall.check({mode: 'overlay'});</script>
+  <![endif]-->
+</body>
+  <!-- Load Javascripts for Widgets -->
+  
+  <!-- LOAD HIGHLIGHTER JS FILES -->
+  <script src="libraries/highlighters/highlight.js/highlight.pack.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <!-- DONE LOADING HIGHLIGHTER JS FILES -->
+   
+  </html>
